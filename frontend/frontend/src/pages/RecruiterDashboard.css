@@ -1,30 +1,101 @@
 .recruiter-container {
-    max-width: 700px;
-    margin: 40px auto;
+    max-width: 1100px;
+    margin: 30px auto;
     padding: 20px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #2d3748;
 }
 
-.recruiter-title {
-    text-align: center;
+.recruiter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 15px;
     margin-bottom: 25px;
+}
+
+.recruiter-header h2 {
+    margin: 0;
+    color: #1a202c;
+}
+
+.recruiter-sub {
+    margin: 4px 0 0 0;
+    color: #718096;
+    font-size: 14px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.toggle-form-btn {
+    padding: 10px 18px;
+    background: #3182ce;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.toggle-form-btn:hover {
+    background: #2b6cb0;
+}
+
+.logout-btn {
+    padding: 10px 18px;
+    background-color: #e53e3e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.logout-btn:hover {
+    background-color: #c53030;
+}
+
+/* Post Job Form */
+.form-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    margin-bottom: 35px;
+}
+
+.form-card h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #2b6cb0;
 }
 
 .job-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    padding: 25px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-row input {
+    flex: 1;
 }
 
 .job-form input,
 .job-form textarea {
     padding: 12px;
-    border: 1px solid #ccc;
+    border: 1px solid #cbd5e0;
     border-radius: 6px;
-    font-size: 16px;
+    font-size: 15px;
 }
 
 .job-form textarea {
@@ -32,14 +103,177 @@
     resize: vertical;
 }
 
-.job-form button {
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
+.form-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
 }
 
-.job-form button:hover {
-    opacity: 0.9;
+.submit-btn {
+    padding: 12px 24px;
+    background: #38a169;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background: #2f855a;
+}
+
+.cancel-btn {
+    padding: 12px 20px;
+    background: #edf2f7;
+    color: #4a5568;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Section Header */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h3 {
+    margin: 0;
+}
+
+.info-text {
+    font-size: 13px;
+    color: #718096;
+}
+
+/* Recruiter Jobs Grid */
+.recruiter-jobs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+}
+
+.recruiter-job-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.job-title {
+    margin: 0 0 4px 0;
+    color: #2b6cb0;
+    font-size: 18px;
+}
+
+.job-company {
+    color: #4a5568;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.applicant-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #ebf8ff;
+    border: 1px solid #bee3f8;
+    padding: 6px 12px;
+    border-radius: 8px;
+}
+
+.badge-count {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2b6cb0;
+    line-height: 1;
+}
+
+.badge-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #4a5568;
+    margin-top: 2px;
+}
+
+.job-meta {
+    font-size: 14px;
+    margin: 8px 0;
+    color: #4a5568;
+}
+
+.job-meta p {
+    margin: 4px 0;
+}
+
+.job-skills-list {
+    margin: 8px 0;
+}
+
+.skills-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.rec-skill-tag {
+    background: #edf2f7;
+    color: #2d3748;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.job-desc-preview {
+    color: #718096;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 10px 0;
+    flex-grow: 1;
+}
+
+.card-footer {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px solid #edf2f7;
+}
+
+.view-applicants-btn {
+    width: 100%;
+    padding: 10px;
+    background: #3182ce;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.view-applicants-btn:hover {
+    background: #2b6cb0;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    background: white;
+    border: 1px dashed #cbd5e0;
+    border-radius: 10px;
 }

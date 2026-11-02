@@ -8,8 +8,14 @@ public class CreateJobRequest {
     private Double salary;
     private String description;
     private String skills;
+    private Long recruiterId;
+
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getSkills() {
@@ -24,35 +30,39 @@ public class CreateJobRequest {
         return company;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public Double getSalary() {
-        return salary;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     public void setLocation(String location) {
         this.location = location;
     }
 
+    public Double getSalary() {
+        return salary;
+    }
+
     public void setSalary(Double salary) {
         this.salary = salary;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getRecruiterId() {
+        return recruiterId;
+    }
+
+    public void setRecruiterId(Long recruiterId) {
+        this.recruiterId = recruiterId;
     }
 }

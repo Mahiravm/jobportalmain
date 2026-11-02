@@ -18,6 +18,70 @@ public class Application {
 
     private Long jobId;
 
+    private String status;
+
+    private LocalDateTime appliedAt;
+
+    private Integer matchScore;
+
+    @Column(columnDefinition = "TEXT")
+    private String matchingSkills;
+
+    @Column(columnDefinition = "TEXT")
+    private String missingSkills;
+
+    @Column(columnDefinition = "LONGTEXT")
+    private String aiExplanation;
+
+    @Column(length = 500)
+    private String resumePath;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.appliedAt == null) {
+            this.appliedAt = LocalDateTime.now();
+        }
+        if (this.status == null) {
+            this.status = "APPLIED";
+        }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(Long jobId) {
+        this.jobId = jobId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getAppliedAt() {
+        return appliedAt;
+    }
+
+    public void setAppliedAt(LocalDateTime appliedAt) {
+        this.appliedAt = appliedAt;
+    }
+
     public Integer getMatchScore() {
         return matchScore;
     }
@@ -26,45 +90,35 @@ public class Application {
         this.matchScore = matchScore;
     }
 
-    private String status;
-
-    private LocalDateTime appliedAt;
-
-    private Integer matchScore;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", insertable = false, updatable = false)
-//    private User user;
-//
-    public Long getUserId() {
-        return userId;
+    public String getMatchingSkills() {
+        return matchingSkills;
     }
 
-    public Long getJobId() {
-        return jobId;
+    public void setMatchingSkills(String matchingSkills) {
+        this.matchingSkills = matchingSkills;
     }
 
-    public String getStatus() {
-        return status;
+    public String getMissingSkills() {
+        return missingSkills;
     }
 
-    public LocalDateTime getAppliedAt() {
-        return appliedAt;
+    public void setMissingSkills(String missingSkills) {
+        this.missingSkills = missingSkills;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public String getAiExplanation() {
+        return aiExplanation;
     }
 
-    public void setJobId(Long jobId) {
-        this.jobId = jobId;
+    public void setAiExplanation(String aiExplanation) {
+        this.aiExplanation = aiExplanation;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public String getResumePath() {
+        return resumePath;
     }
 
-    public void setAppliedAt(LocalDateTime appliedAt) {
-        this.appliedAt = appliedAt;
+    public void setResumePath(String resumePath) {
+        this.resumePath = resumePath;
     }
 }

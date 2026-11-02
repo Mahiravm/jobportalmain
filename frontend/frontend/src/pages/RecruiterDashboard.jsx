@@ -1,464 +1,15 @@
-// import { useState } from "react";
-// import { createJob } from "../services/jobService";
-// import "./RecruiterDashboard.css";
-// import { useNavigate } from "react-router-dom";
-// function RecruiterDashboard() {
-//     const navigate = useNavigate();
-//     const [job, setJob] = useState({
-//         title: "",
-//         company: "",
-//         location: "",
-//         salary: "",
-//         description: ""
-//     });
-
-//     const handleChange = (e) => {
-//         setJob({
-//             ...job,
-//             [e.target.name]: e.target.value
-//         });
-//     };
-
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-
-//         try {
-//             await createJob(job);
-//             alert("Job Created Successfully");
-//         } catch (error) {
-//             console.error(error);
-//         }
-//     };
-//     const handleLogout = () => {
-
-//     localStorage.removeItem("user");
-
-//     navigate("/login");
-// };
-
-//     return (
-//     <div className="recruiter-container">
-
-//         <h2 className="recruiter-title">
-//             Recruiter Dashboard
-//         </h2>
-
-//         <form className="job-form" onSubmit={handleSubmit}>
-
-//             <input
-//                 name="title"
-//                 placeholder="Job Title"
-//                 onChange={handleChange}
-//             />
-
-//             <input
-//                 name="company"
-//                 placeholder="Company Name"
-//                 onChange={handleChange}
-//             />
-
-//             <input
-//                 name="location"
-//                 placeholder="Location"
-//                 onChange={handleChange}
-//             />
-
-//             <input
-//                 name="salary"
-//                 placeholder="Salary"
-//                 onChange={handleChange}
-//             />
-
-//             <textarea
-//                 name="description"
-//                 placeholder="Job Description"
-//                 onChange={handleChange}
-//             />
-
-//             <button type="submit">
-//                 Create Job
-//             </button>
-
-//                 <button
-//                     type="button"
-//                     onClick={() =>
-//                         navigate("/applications")
-//                     }
-//     >
-//         View Applicants
-//     </button>
-
-
-//                 <button
-//                 type="button"
-//                 onClick={handleLogout}>
-//     Logout
-// </button>
-
-//         </form>
-
-//     </div>
-// );
-// }
-
-// export default RecruiterDashboard;
-
-
-
-
-// import { useEffect, useState } from "react";
-// import { getAllJobs } from "../services/jobService";
-// import { getApplicationsByJob } from "../services/applicationService";
-// import "./RecruiterDashboard.css";
-
-// function RecruiterDashboard() {
-
-//     const [jobs, setJobs] = useState([]);
-//     const [applications, setApplications] = useState([]);
-//     const [selectedJob, setSelectedJob] = useState(null);
-
-//     useEffect(() => {
-//         fetchJobs();
-//     }, []);
-
-//     const fetchJobs = async () => {
-//         const res = await getAllJobs();
-//         setJobs(res.data);
-//     };
-
-//     const viewApplicants = async (jobId) => {
-//         const res = await getApplicationsByJob(jobId);
-//         setApplications(res.data);
-//         setSelectedJob(jobId);
-//     };
-
-//     return (
-//         <div>
-
-//             <h2>Recruiter Dashboard</h2>
-
-//             <h3>Jobs</h3>
-
-//             {jobs.map(job => (
-//                 <div key={job.id} className="job-card">
-
-//                     <h4>{job.title}</h4>
-//                     <p>{job.company}</p>
-
-//                     <button
-//                         type="button"
-//                         onClick={() => viewApplicants(job.id)}
-//                     >
-//                         View Applicants
-//                     </button>
-
-//                 </div>
-//             ))}
-
-//             {selectedJob && (
-//                 <div>
-//                     <h3>Applicants</h3>
-
-//                     {applications.length === 0 ? (
-//                         <p>No applicants yet</p>
-//                     ) : (
-//                        applications.map((app,index) => (
-//     <div key={index} className="applicant-card">
-
-//         <p><b>Name:</b> {app.name}</p>
-
-//         <p><b>Email:</b> {app.email}</p>
-
-//         <p><b>Status:</b> {app.status}</p>
-
-//     </div>
-// ))
-//                     )}
-
-//                 </div>
-//             )}
-
-//         </div>
-//     );
-// }
-
-// export default RecruiterDashboard;
-
-
-
-
-
-
-
-
-// import { useEffect, useState } from "react";
-// import { createJob, getAllJobs } from "../services/jobService";
-// import { getApplicationsByJob } from "../services/applicationService";
-// import "./RecruiterDashboard.css";
-
-// function RecruiterDashboard() {
-
-//     const [jobs, setJobs] = useState([]);
-//     const [applications, setApplications] = useState([]);
-//     const [selectedJob, setSelectedJob] = useState(null);
-
-//     const [job, setJob] = useState({
-//         title: "",
-//         company: "",
-//         location: "",
-//         salary: "",
-//         description: "",
-//         skills: ""
-//     });
-
-//     useEffect(() => {
-//         fetchJobs();
-//     }, []);
-
-//     const fetchJobs = async () => {
-//         try {
-//             const res = await getAllJobs();
-//             setJobs(res.data);
-//         } catch (error) {
-//             console.error(error);
-//         }
-//     };
-
-//     const handleChange = (e) => {
-//         setJob({
-//             ...job,
-//             [e.target.name]: e.target.value
-//         });
-//     };
-
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-
-//         try {
-
-//             await createJob(job);
-
-//             alert("Job Created Successfully");
-
-//             setJob({
-//                 title: "",
-//                 company: "",
-//                 location: "",
-//                 salary: "",
-//                 description: "",
-//                 skills: ""
-//             });
-
-//             fetchJobs();
-
-//         } catch (error) {
-//             console.error(error);
-//         }
-//     };
-
-//     const viewApplicants = async (jobId) => {
-//         try {
-
-//             const res = await getApplicationsByJob(jobId);
-
-//             console.log(res.data);
-
-//             setApplications(res.data);
-//             setSelectedJob(jobId);
-
-//         } catch (error) {
-//             console.error(error);
-//         }
-//     };
-
-
-
-
-
-
-//     return (
-//         <div className="recruiter-container">
-
-//             <h2>Recruiter Dashboard</h2>
-
-//             {/* Create Job Form */}
-
-//             <form className="job-form" onSubmit={handleSubmit}>
-
-//                 <input
-//                     type="text"
-//                     name="title"
-//                     placeholder="Job Title"
-//                     value={job.title}
-//                     onChange={handleChange}
-//                     required
-//                 />
-
-//                 <input
-//                     type="text"
-//                     name="company"
-//                     placeholder="Company Name"
-//                     value={job.company}
-//                     onChange={handleChange}
-//                     required
-//                 />
-
-//                 <input
-//                     type="text"
-//                     name="location"
-//                     placeholder="Location"
-//                     value={job.location}
-//                     onChange={handleChange}
-//                     required
-//                 />
-
-//                 <input
-//                     type="text"
-//                     name="salary"
-//                     placeholder="Salary"
-//                     value={job.salary}
-//                     onChange={handleChange}
-//                     required
-//                 />
-
-//                 <textarea
-//                     name="description"
-//                     placeholder="Job Description"
-//                     value={job.description}
-//                     onChange={handleChange}
-//                     required
-//                 />
-
-//                 <input
-//                     type="text"
-//                     name="skills"
-//                     placeholder="Required Skills"
-//                     value={job.skills}
-//                     onChange={handleChange}
-//                     required
-//                 />
-
-//                 <button type="submit">
-//                     Create Job
-//                 </button>
-
-//             </form>
-
-//             <hr />
-
-//             <h3>Posted Jobs</h3>
-
-//             {jobs.length === 0 ? (
-//                 <p>No Jobs Found</p>
-//             ) : (
-//                 jobs.map(job => (
-//                     <div
-//                         key={job.id}
-//                         className="job-card"
-//                     >
-
-//                         <h4>{job.title}</h4>
-
-//                         <p>
-//                             <strong>Company:</strong> {job.company}
-//                         </p>
-
-//                         <p>
-//                             <strong>Location:</strong> {job.location}
-//                         </p>
-
-//                         <p>
-//                             <strong>Salary:</strong> {job.salary}
-//                         </p>
-
-//                         <button
-//                             type="button"
-//                             onClick={() =>
-//                                 viewApplicants(job.id)
-//                             }
-//                         >
-//                             View Applicants
-//                         </button>
-
-//                     </div>
-//                 ))
-//             )}
-
-//             {selectedJob && (
-//                 <div className="applicant-section">
-
-//                     <h3>
-//                         Applicants for Job ID: {selectedJob}
-//                     </h3>
-
-//                     {applications.length === 0 ? (
-//                         <p>No applicants yet</p>
-//                     ) : (
-
-//                         applications.map((app, index) => (
-
-//                             <div
-//                                 key={index}
-//                                 className="applicant-card"
-//                             >
-
-//                                 <p>
-//                                     <strong>Name:</strong>
-//                                     {" "}
-//                                     {app.name}
-//                                 </p>
-
-//                                 <p>
-//                                     <strong>Email:</strong>
-//                                     {" "}
-//                                     {app.email}
-//                                 </p>
-
-//                                 <p>
-//                                     <strong>Status:</strong>
-//                                     {" "}
-//                                     {app.status}
-//                                 </p>
-
-
-
-
-
-//                                 <button
-//                                     onClick={() =>
-//                                         window.open(
-//                                             `http://localhost:8080/api/resume/view/${app.userId}`,
-//                                             "_blank"
-//                                         )
-//                                     }
-//                                 >
-//                                         View Resume
-//                                 </button>
-
-//                             </div>
-//                         ))
-//                     )}
-
-//                 </div>
-//             )}
-
-//         </div>
-//     );
-// }
-
-// export default RecruiterDashboard;
-
-
-
-
 import { useEffect, useState } from "react";
-import { createJob, getAllJobs } from "../services/jobService";
-import { useNavigate } from "react-router-dom"; // 👈 1. useNavigate இம்போர்ட் பண்ணியாச்சு
+import { createJob, getRecruiterJobs } from "../services/JobService";
+import { useNavigate } from "react-router-dom";
 import "./RecruiterDashboard.css";
 
 function RecruiterDashboard() {
+    const navigate = useNavigate();
+    const user = JSON.parse(localStorage.getItem("user"));
+
     const [jobs, setJobs] = useState([]);
-    const navigate = useNavigate(); // 👈 2. ஹூக் இனிஷியலைஸ் பண்ணியாச்சு
+    const [loading, setLoading] = useState(true);
+    const [showCreateForm, setShowCreateForm] = useState(false);
 
     const [job, setJob] = useState({
         title: "",
@@ -470,15 +21,22 @@ function RecruiterDashboard() {
     });
 
     useEffect(() => {
-        fetchJobs();
+        if (!user) {
+            navigate("/login");
+            return;
+        }
+        fetchRecruiterJobs();
     }, []);
 
-    const fetchJobs = async () => {
+    const fetchRecruiterJobs = async () => {
         try {
-            const res = await getAllJobs();
-            setJobs(res.data);
+            setLoading(true);
+            const res = await getRecruiterJobs(user.id);
+            setJobs(res.data || []);
         } catch (error) {
-            console.error(error);
+            console.error("Error fetching recruiter jobs:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -492,8 +50,14 @@ function RecruiterDashboard() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await createJob(job);
-            alert("Job Created Successfully");
+            const payload = {
+                ...job,
+                salary: parseFloat(job.salary) || 0,
+                recruiterId: user.id
+            };
+
+            await createJob(payload);
+            alert("Job opening posted successfully!");
             setJob({
                 title: "",
                 company: "",
@@ -502,100 +66,178 @@ function RecruiterDashboard() {
                 description: "",
                 skills: ""
             });
-            fetchJobs();
+            setShowCreateForm(false);
+            fetchRecruiterJobs();
         } catch (error) {
-            console.error(error);
+            console.error("Error creating job:", error);
+            alert("Failed to create job posting. Please verify inputs.");
         }
     };
 
-    // 👈 3. இந்த ஃபங்க்ஷனை மட்டும் தான் மாத்தியிருக்கேன்!
     const viewApplicants = (jobId) => {
-        // கிளிக் பண்ண உடனே நேரா /applications பேஜுக்கு ஃப்ளோவை திருப்பி விட்றோம்
-        navigate(`/applications?jobId=${jobId}`); 
+        navigate(`/applications?jobId=${jobId}`);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("user");
+        navigate("/login");
     };
 
     return (
         <div className="recruiter-container">
-            <h2>Recruiter Dashboard</h2>
+            {/* Header */}
+            <div className="recruiter-header">
+                <div>
+                    <h2>Recruiter Dashboard</h2>
+                    <p className="recruiter-sub">Welcome, {user?.name || "Recruiter"} &bull; {user?.email}</p>
+                </div>
+                <div className="header-actions">
+                    <button
+                        className="toggle-form-btn"
+                        onClick={() => setShowCreateForm(!showCreateForm)}
+                    >
+                        {showCreateForm ? "Cancel Posting" : "+ Post New Job Opening"}
+                    </button>
+                    <button className="logout-btn" onClick={handleLogout}>Logout</button>
+                </div>
+            </div>
 
-            {/* Create Job Form */}
-            <form className="job-form" onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Job Title"
-                    value={job.title}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="text"
-                    name="company"
-                    placeholder="Company Name"
-                    value={job.company}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="text"
-                    name="location"
-                    placeholder="Location"
-                    value={job.location}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="text"
-                    name="salary"
-                    placeholder="Salary"
-                    value={job.salary}
-                    onChange={handleChange}
-                    required
-                />
-                <textarea
-                    name="description"
-                    placeholder="Job Description"
-                    value={job.description}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="text"
-                    name="skills"
-                    placeholder="Required Skills"
-                    value={job.skills}
-                    onChange={handleChange}
-                    required
-                />
-                <button type="submit">Create Job</button>
-            </form>
+            {/* Create Job Form (Toggleable or Visible) */}
+            {showCreateForm && (
+                <div className="form-card">
+                    <h3>Post a New Job Opening</h3>
+                    <form className="job-form" onSubmit={handleSubmit}>
+                        <div className="form-row">
+                            <input
+                                type="text"
+                                name="title"
+                                placeholder="Job Title (e.g. Senior Java Developer)"
+                                value={job.title}
+                                onChange={handleChange}
+                                required
+                            />
+                            <input
+                                type="text"
+                                name="company"
+                                placeholder="Company Name"
+                                value={job.company}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
 
-            <hr />
+                        <div className="form-row">
+                            <input
+                                type="text"
+                                name="location"
+                                placeholder="Location (e.g. Bangalore / Remote)"
+                                value={job.location}
+                                onChange={handleChange}
+                                required
+                            />
+                            <input
+                                type="number"
+                                name="salary"
+                                placeholder="Salary (Annual in ₹)"
+                                value={job.salary}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
 
-            <h3>Posted Jobs</h3>
+                        <input
+                            type="text"
+                            name="skills"
+                            placeholder="Required Skills (e.g. Java, Spring Boot, MySQL, REST API, Microservices)"
+                            value={job.skills}
+                            onChange={handleChange}
+                            required
+                        />
 
-            {jobs.length === 0 ? (
-                <p>No Jobs Found</p>
-            ) : (
-                jobs.map(job => (
-                    <div key={job.id} className="job-card">
-                        <h4>{job.title}</h4>
-                        <p><strong>Company:</strong> {job.company}</p>
-                        <p><strong>Location:</strong> {job.location}</p>
-                        <p><strong>Salary:</strong> {job.salary}</p>
-                        
-                        {/* View Applicants பட்டன் */}
-                        <button
-                            type="button"
-                            onClick={() => viewApplicants(job.id)}
-                        >
-                            View Applicants
+                        <textarea
+                            name="description"
+                            placeholder="Complete Job Description, responsibilities, and qualifications..."
+                            value={job.description}
+                            onChange={handleChange}
+                            required
+                        />
+
+                        <div className="form-buttons">
+                            <button type="submit" className="submit-btn">Publish Job Opening</button>
+                            <button type="button" className="cancel-btn" onClick={() => setShowCreateForm(false)}>Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            )}
+
+            {/* Recruiter's Posted Jobs Section */}
+            <div className="posted-jobs-section">
+                <div className="section-header">
+                    <h3>My Posted Job Openings ({jobs.length})</h3>
+                    <span className="info-text">Showing only jobs created by you</span>
+                </div>
+
+                {loading ? (
+                    <p className="loading-text">Loading your job postings...</p>
+                ) : jobs.length === 0 ? (
+                    <div className="empty-state">
+                        <p>You haven't posted any jobs yet.</p>
+                        <button className="toggle-form-btn" onClick={() => setShowCreateForm(true)}>
+                            Post Your First Job
                         </button>
                     </div>
-                ))
-            )}
-            
-            {/* 🛠️ கீழே இருந்த அப்ளிகன்ட்ஸ் செக்ஷன் தேவையில்லை, ஏன்னா அது தனி பேஜுக்கு போயிடுச்சு! */}
+                ) : (
+                    <div className="recruiter-jobs-grid">
+                        {jobs.map((j) => (
+                            <div key={j.id} className="recruiter-job-card">
+                                <div className="card-top">
+                                    <div>
+                                        <h4 className="job-title">{j.title}</h4>
+                                        <span className="job-company">{j.company}</span>
+                                    </div>
+                                    <div className="applicant-badge">
+                                        <span className="badge-count">{j.applicantCount}</span>
+                                        <span className="badge-label">Applicants</span>
+                                    </div>
+                                </div>
+
+                                <div className="job-meta">
+                                    <p><strong>Location:</strong> {j.location}</p>
+                                    <p><strong>Salary:</strong> ₹{j.salary ? j.salary.toLocaleString() : "Not specified"}</p>
+                                    <p><strong>Posted Date:</strong> {j.postedDate ? new Date(j.postedDate).toLocaleDateString() : "Recently"}</p>
+                                </div>
+
+                                {j.skills && (
+                                    <div className="job-skills-list">
+                                        <strong>Skills:</strong>
+                                        <div className="skills-tags">
+                                            {j.skills.split(/[,;]+/).map((s, idx) => s.trim() && (
+                                                <span key={idx} className="rec-skill-tag">{s.trim()}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                <p className="job-desc-preview">
+                                    {j.description && j.description.length > 150
+                                        ? `${j.description.substring(0, 150)}...`
+                                        : j.description}
+                                </p>
+
+                                <div className="card-footer">
+                                    <button
+                                        type="button"
+                                        className="view-applicants-btn"
+                                        onClick={() => viewApplicants(j.id)}
+                                    >
+                                        View Applicants ({j.applicantCount})
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

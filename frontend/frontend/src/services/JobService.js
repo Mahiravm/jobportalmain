@@ -9,3 +9,11 @@ export const createJob = async (jobData) => {
 export const getAllJobs = async () => {
     return await axios.get(API_URL);
 };
+
+export const getJobById = async (jobId) => {
+    return await axios.get(`${API_URL}/${jobId}`);
+};
+
+export const getRecruiterJobs = async (recruiterId) => {
+    return await axios.get(`http://localhost:8080/api/recruiter/jobs?recruiterId=${recruiterId}`);
+};
