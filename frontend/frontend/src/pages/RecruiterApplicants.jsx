@@ -21,47 +21,58 @@ function RecruiterApplicants() {
             navigate("/login");
             return;
         }
-        if (!jobId) {
-            setErrorMsg("No Job ID specified.");
-            setLoading(false);
-            return;
-        }
-        loadJobAndApplicants();
-    }, [jobId]);
 
-    const loadJobAndApplicants = async () => {
-        setLoading(true);
-        setErrorMsg("");
+        let isMounted = true;
+        const loadInitialData = async () => {
+            if (!jobId) {
+                if (isMounted) {
+                    setErrorMsg("No Job ID specified.");
+                    setLoading(false);
+                }
+                return;
+            }
 
-        try {
-            // Load job details
+            setLoading(true);
+            setErrorMsg("");
+
             try {
-                const jobRes = await getJobById(jobId);
-                setJob(jobRes.data);
-            } catch (e) {
-                console.warn("Could not fetch job metadata:", e);
-            }
+                // Load job details
+                try {
+                    const jobRes = await getJobById(jobId);
+                    if (isMounted) setJob(jobRes.data);
+                } catch (e) {
+                    console.warn("Could not fetch job metadata:", e);
+                }
 
-            // Load applicants with recruiter ownership validation
-            const response = await getApplicantDetailsByRecruiter(jobId, user.id);
-            // Sort by matchScore descending
-            const sorted = (response.data || []).sort((a, b) => {
-                const scoreA = a.matchScore !== null ? a.matchScore : -1;
-                const scoreB = b.matchScore !== null ? b.matchScore : -1;
-                return scoreB - scoreA;
-            });
-            setApplicants(sorted);
-        } catch (err) {
-            console.error("Error loading applicants:", err);
-            if (err.response && err.response.status === 403) {
-                setErrorMsg("Access Denied: You are not authorized to view applicants for this job opening.");
-            } else {
-                setErrorMsg(err.response?.data?.message || err.response?.data || "Failed to load applicants.");
+                // Load applicants with recruiter ownership validation
+                const response = await getApplicantDetailsByRecruiter(jobId, user.id);
+                const sorted = (response.data || []).sort((a, b) => {
+                    const scoreA = a.matchScore !== null ? a.matchScore : -1;
+                    const scoreB = b.matchScore !== null ? b.matchScore : -1;
+                    return scoreB - scoreA;
+                });
+                if (isMounted) setApplicants(sorted);
+            } catch (err) {
+                console.error("Error loading applicants:", err);
+                if (isMounted) {
+                    if (err.response && err.response.status === 403) {
+                        setErrorMsg("Access Denied: You are not authorized to view applicants for this job opening.");
+                    } else {
+                        setErrorMsg(err.response?.data?.message || err.response?.data || "Failed to load applicants.");
+                    }
+                }
+            } finally {
+                if (isMounted) setLoading(false);
             }
-        } finally {
-            setLoading(false);
-        }
-    };
+        };
+
+        loadInitialData();
+
+        return () => {
+            isMounted = false;
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [jobId]);
 
     const handleViewResume = (applicant) => {
         if (applicant.id) {

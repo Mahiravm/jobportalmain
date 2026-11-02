@@ -18,37 +18,8 @@ function CandidateDashboard() {
     const [selectedAiApp, setSelectedAiApp] = useState(null); // For AI modal
     const [selectedJobDetails, setSelectedJobDetails] = useState(null); // For Job Description modal
 
-    useEffect(() => {
-        if (!user) {
-            navigate("/login");
-            return;
-        }
-        fetchJobs();
-        checkResume();
-        fetchMyApplications();
-    }, []);
-
-    const fetchJobs = async () => {
-        try {
-            const response = await getAllJobs();
-            setJobs(response.data || []);
-        } catch (error) {
-            console.error("Error fetching jobs:", error);
-        }
-    };
-
-    const checkResume = async () => {
-        try {
-            const res = await axios.get(`http://localhost:8080/api/user/${user.id}`);
-            if (res.data && res.data.resumePath) {
-                setResumeUploaded(true);
-            }
-        } catch (err) {
-            console.error("Error checking resume:", err);
-        }
-    };
-
-    const fetchMyApplications = async () => {
+    const refreshApplications = async () => {
+        if (!user?.id) return;
         try {
             const res = await getMyApplications(user.id);
             setApplications(res.data || []);
@@ -57,8 +28,55 @@ function CandidateDashboard() {
         }
     };
 
+    useEffect(() => {
+        if (!user) {
+            navigate("/login");
+            return;
+        }
+
+        let isMounted = true;
+
+        const loadInitialData = async () => {
+            try {
+                const jobRes = await getAllJobs();
+                if (isMounted) {
+                    setJobs(jobRes.data || []);
+                }
+            } catch (error) {
+                console.error("Error fetching jobs:", error);
+            }
+
+            if (user?.id) {
+                try {
+                    const res = await axios.get(`http://localhost:8080/api/user/${user.id}`);
+                    if (isMounted && res.data && res.data.resumePath) {
+                        setResumeUploaded(true);
+                    }
+                } catch (err) {
+                    console.error("Error checking resume:", err);
+                }
+
+                try {
+                    const appRes = await getMyApplications(user.id);
+                    if (isMounted) {
+                        setApplications(appRes.data || []);
+                    }
+                } catch (err) {
+                    console.error("Error fetching applications:", err);
+                }
+            }
+        };
+
+        loadInitialData();
+
+        return () => {
+            isMounted = false;
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const handleResumeUpload = async (file) => {
-        if (!file) return;
+        if (!file || !user?.id) return;
         const formData = new FormData();
         formData.append("file", file);
         setUploadingResume(true);
@@ -93,7 +111,7 @@ function CandidateDashboard() {
                 : "Calculated";
 
             alert(`Application submitted successfully! AI Match Score: ${score}`);
-            await fetchMyApplications();
+            await refreshApplications();
             setActiveTab("applications"); // Switch tab so applicant can view their AI match analysis
         } catch (error) {
             console.error("Application error:", error);
@@ -136,7 +154,7 @@ function CandidateDashboard() {
                     className={`tab-btn ${activeTab === "applications" ? "active" : ""}`}
                     onClick={() => {
                         setActiveTab("applications");
-                        fetchMyApplications();
+                        refreshApplications();
                     }}
                 >
                     My Applications & AI Analysis ({applications.length})

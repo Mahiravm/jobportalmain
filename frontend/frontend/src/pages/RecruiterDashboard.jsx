@@ -20,15 +20,8 @@ function RecruiterDashboard() {
         skills: ""
     });
 
-    useEffect(() => {
-        if (!user) {
-            navigate("/login");
-            return;
-        }
-        fetchRecruiterJobs();
-    }, []);
-
-    const fetchRecruiterJobs = async () => {
+    const refreshJobs = async () => {
+        if (!user?.id) return;
         try {
             setLoading(true);
             const res = await getRecruiterJobs(user.id);
@@ -39,6 +32,38 @@ function RecruiterDashboard() {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        if (!user) {
+            navigate("/login");
+            return;
+        }
+
+        let isMounted = true;
+        const loadInitialJobs = async () => {
+            if (!user?.id) return;
+            try {
+                setLoading(true);
+                const res = await getRecruiterJobs(user.id);
+                if (isMounted) {
+                    setJobs(res.data || []);
+                }
+            } catch (error) {
+                console.error("Error fetching recruiter jobs:", error);
+            } finally {
+                if (isMounted) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        loadInitialJobs();
+
+        return () => {
+            isMounted = false;
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleChange = (e) => {
         setJob({
@@ -67,7 +92,7 @@ function RecruiterDashboard() {
                 skills: ""
             });
             setShowCreateForm(false);
-            fetchRecruiterJobs();
+            refreshJobs();
         } catch (error) {
             console.error("Error creating job:", error);
             alert("Failed to create job posting. Please verify inputs.");
